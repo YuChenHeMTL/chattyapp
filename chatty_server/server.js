@@ -19,12 +19,18 @@ const wss = new SocketServer({ server });
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
+var colors = ["blue", 'green','purple', 'red'];
 
 wss.on('connection', (ws) => {
-  const colors = ["blue", 'green','purple', 'red'];
   console.log('Client connected');
   var randomNumber = Math.floor(Math.random() * colors.length);
   const clientColor = colors[randomNumber];
+  const colorIndex = colors.indexOf(clientColor);
+  colors.splice(colorIndex, 1);
+
+  console.log(colors)
+  console.log(clientColor, colors.length);
+
 
   wss.clients.forEach(function each(client) {
     if (client.readyState === client.OPEN) {
@@ -80,6 +86,9 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
     console.log('Client disconnected')
+
+    colors.splice(colorIndex, 0, clientColor);
+
     wss.clients.forEach(function each(client) {
       if (client.readyState === client.OPEN) {
         client.send(JSON.stringify({
