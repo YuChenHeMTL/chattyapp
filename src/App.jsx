@@ -66,7 +66,7 @@ class App extends Component {
             username: data.username,
             content: data.content
           }
-          console.log(data.color.color)
+
           const allMessages = this.state.messages.push(receivedMessage)
           this.setState({
             message: allMessages
@@ -88,7 +88,6 @@ class App extends Component {
           })
           break;
         case "userNumber":
-          console.log("new user");
           this.setState({
             users: data.userNumber
           })
