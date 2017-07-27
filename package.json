@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js",
-    "postinstall": "webpack-dev-server"
+    "websocket": "node ./chatty_server/server.js"
   },
   "repository": {
     "type": "git",
