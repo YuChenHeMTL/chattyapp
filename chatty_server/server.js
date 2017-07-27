@@ -23,11 +23,14 @@ var colors = ["blue", 'green','purple', 'red'];
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+
+  //On open connection, attach a color out of 4 available colors and takes it out of the color pool.
   var randomNumber = Math.floor(Math.random() * colors.length);
   const clientColor = colors[randomNumber];
   const colorIndex = colors.indexOf(clientColor);
   colors.splice(colorIndex, 1);
 
+  //On open connection, send the number of open clients to every client.
   wss.clients.forEach(function each(client) {
     if (client.readyState === client.OPEN) {
       client.send(JSON.stringify({
@@ -37,12 +40,15 @@ wss.on('connection', (ws) => {
     }
   });
 
+  //Handle the messages of the clients
   ws.on('message', function incoming(message) {
     const parsedMessage = JSON.parse(message);
 
     switch (parsedMessage.type){
+
+      //If the message is a user's message,
+      //it attaches the color of the user, their name and the content to the message and sends it to every client.
       case "postMessage":
-        console.log(`User ${parsedMessage.username} said ${parsedMessage.content}`);
 
         const newMessage = {
           type: "incomingMessage",
@@ -59,8 +65,9 @@ wss.on('connection', (ws) => {
         });
         break;
 
+      //If the message is a notification,
+      //it attaches the content and sends it to every client.
       case "postNotification":
-        console.log(parsedMessage.content)
         const newNotification = {
           type: "incomingNotification",
           id: uuidv4(),
@@ -83,8 +90,8 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     console.log('Client disconnected')
 
-    colors.splice(colorIndex, 0, clientColor);
-
+    //On close connection, reattach the client color to the color pool.
+    colors.splice(colorIndex, 0, clientColor);;
     wss.clients.forEach(function each(client) {
       if (client.readyState === client.OPEN) {
         client.send(JSON.stringify({

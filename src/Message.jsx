@@ -10,22 +10,27 @@ class Message extends Component {
   }
 
   componentWillMount(){
+    const separatedSpace = this.props.content.split(" ");
     const regex = new RegExp(/(https?:\/\/.*\.(?:png|jpg|gif))/i);
-    const url = this.props.content.match(regex);
+    var withUrl = this.state.content;
 
-    if (url !== null){
-    this.state.urlArray.push(url[0])
-      const withoutUrl = this.state.content.replace(url[0], "");
-      this.setState({
-        content: withoutUrl
-      })
+    for (let i = 0; i < separatedSpace.length; i++){
+      const url = separatedSpace[i].match(regex);
+      if (url !== null){
+      this.state.urlArray.push(url[0])
+      withUrl = withUrl.replace(url[0], "");
+      }
     }
+    this.setState({
+      content: withUrl
+    })
   }
 
   render() {
     const getImg = this.state.urlArray.map(function (url) {
+      const randomNumber = Math.floor(Math.random() * 1000000000000)
       if (url !== null){
-        return <img key={url} src={url} />
+        return <img key={randomNumber} src={url} />
       }
     })
 
