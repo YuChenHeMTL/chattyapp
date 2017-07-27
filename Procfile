@@ -1,1 +1,1 @@
-web: npm start, npm heroku-postbuild
+web: npm start, npm run heroku-postbuild
