@@ -10,14 +10,12 @@ class Message extends Component {
   }
 
   componentWillMount(){
-    console.log("Rendering <Message />")
     const regex = new RegExp(/(https?:\/\/.*\.(?:png|jpg|gif))/i);
-    const textexample = "http://www.publicdomainpictures.net/pictures/30000/velka/the-two-red-roses.jpg";
-    const url = this.props.content.match(regex)[0];
-    this.state.urlArray.push(url)
+    const url = this.props.content.match(regex);
 
     if (url !== null){
-      const withoutUrl = this.state.content.replace(url, "");
+    this.state.urlArray.push(url[0])
+      const withoutUrl = this.state.content.replace(url[0], "");
       this.setState({
         content: withoutUrl
       })

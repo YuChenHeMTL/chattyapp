@@ -6,7 +6,6 @@ class Chatbar extends Component {
   }
 
   render() {
-    console.log("Rendering <ChatBar />");
     return (
         <footer className="chatbar">
           <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={this.props.state.currentUser.name} onKeyUp={this.props.userUpdate} id="userInput" />

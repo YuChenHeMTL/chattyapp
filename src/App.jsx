@@ -32,11 +32,9 @@ class App extends Component {
   }
 
   userUpdate(e){
-    if (e.keyCode === 13){
-      const newName = e.target.value;
-      const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: "Anonymous";
-
-
+    const newName = e.target.value;
+    const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: "Anonymous";
+    if (e.keyCode === 13 && e.target.value !== ""){
       if (newName !== oldName){
         this.socket.send(JSON.stringify({
           type: "postNotification",
@@ -57,7 +55,6 @@ class App extends Component {
 
       switch(data.type) {
         case "incomingMessage":
-          console.log(`User ${data.username} said ${data.content}`);
           // handle incoming message
           const receivedMessage = {
             type: "incomingMessage",
@@ -74,7 +71,6 @@ class App extends Component {
           break;
 
         case "incomingNotification":
-          console.log(data.content);
           // handle incoming notification
           const receivedNotification = {
             type: "incomingNotification",
@@ -100,7 +96,6 @@ class App extends Component {
   };
 
   render() {
-    console.log("Rendering <App />");
     return (
       <div className="body">
         <nav className="navbar">

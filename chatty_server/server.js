@@ -28,10 +28,6 @@ wss.on('connection', (ws) => {
   const colorIndex = colors.indexOf(clientColor);
   colors.splice(colorIndex, 1);
 
-  console.log(colors)
-  console.log(clientColor, colors.length);
-
-
   wss.clients.forEach(function each(client) {
     if (client.readyState === client.OPEN) {
       client.send(JSON.stringify({
