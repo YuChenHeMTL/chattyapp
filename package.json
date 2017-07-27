@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js",
-    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
+    "prod": "NODE_ENV=production node server.js",
+    "postinstall": "webpack -p"
   },
   "repository": {
     "type": "git",
