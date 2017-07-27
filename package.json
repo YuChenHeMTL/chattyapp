@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js",
-    "postinstall": "webpack"
+    "postinstall": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
