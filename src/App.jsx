@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import MessageList from "./MessageList.jsx";
-import ChatBar from "./ChatBar.jsx";
+import MessageList from './MessageList.jsx';
+import ChatBar from './ChatBar.jsx';
 
 
 class App extends Component {
@@ -8,10 +8,10 @@ class App extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.userUpdate = this.userUpdate.bind(this);
-    this.socket= new WebSocket("ws://localhost:3001")
+    this.socket= new WebSocket('ws://localhost:3001')
     this.state = {
         users: 0,
-        currentUser: {name: ""}, // optional. if currentUser is not defined, it means the user is Anonymous
+        currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
         messages: []
       }
     }
@@ -20,18 +20,18 @@ class App extends Component {
   //It sends to the server the author and the content of the message
   handleChange(e){
     let withoutSpace = e.target.value.trim();//remove the space before and after the message
-    if (e.keyCode === 13 && withoutSpace !== ""){
-      const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: "Anonymous";
+    if (e.keyCode === 13 && withoutSpace !== ''){
+      const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: 'Anonymous';
       //if the name is not determined, it is temporarily "Anonymous"
 
       let newMessage = {
-        type: "postMessage",
+        type: 'postMessage',
         username: oldName,
         content: withoutSpace
       }
 
       this.socket.send(JSON.stringify(newMessage));
-      document.getElementById("contentInput").value = ""; //empty the input space
+      document.getElementById('contentInput').value = ''; //empty the input space
     }
   }
 
@@ -40,13 +40,13 @@ class App extends Component {
   userUpdate(e){
     let withoutSpace = e.target.value.trim();//remove the space before and after the message
     const newName = e.target.value;
-    const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: "Anonymous";
+    const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: 'Anonymous';
     //if the name is not determined, it is temporarily "Anonymous"
 
-    if (e.keyCode === 13 && withoutSpace !== ""){
+    if (e.keyCode === 13 && withoutSpace !== ''){
       if (newName !== oldName){ // change the name only if the new name is different than the previous name
         this.socket.send(JSON.stringify({
-          type: "postNotification",
+          type: 'postNotification',
           content: `${oldName} changed their name to ${newName}`
         }))
 
@@ -68,10 +68,10 @@ class App extends Component {
 
       //If the message is a user's message,
       //it attaches the color of the user, their name and the content to the message and converts it into an actual message
-        case "incomingMessage":
+        case 'incomingMessage':
           // handle incoming message
           const receivedMessage = {
-            type: "incomingMessage",
+            type: 'incomingMessage',
             id: data.id,
             color: data.color,
             username: data.username,
@@ -86,10 +86,10 @@ class App extends Component {
 
         //If the message is a notification,
         //it attaches the content and converts it to an actual notification
-        case "incomingNotification":
+        case 'incomingNotification':
           // handle incoming notification
           const receivedNotification = {
-            type: "incomingNotification",
+            type: 'incomingNotification',
             id: data.id,
             content: data.content
           }
@@ -99,17 +99,17 @@ class App extends Component {
             messages: allNotifications
           })
           break;
-        case "userNumber":
+        case 'userNumber':
           this.setState({
             users: data.userNumber
           })
           break;
         default:
           // show an error in the console if the message type is unknown
-          throw new Error("Unknown event type " + data.type);
+          throw new Error('Unknown event type ' + data.type);
       }
     }
-  };
+  }
 
   render() {
     return (
